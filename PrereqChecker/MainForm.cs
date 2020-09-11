@@ -1,22 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Runtime.InteropServices;
-using System.Security.Principal;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Microsoft.Win32;
-
-namespace RTCV.Prereqs
+﻿namespace RTCV.Prereqs
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Diagnostics;
+    using System.Drawing;
+    using System.IO;
+    using System.Linq;
+    using System.Net;
+    using System.Runtime.InteropServices;
+    using System.Security.Principal;
+    using System.Text;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.Windows.Forms;
+    using Microsoft.Win32;
+
     public partial class MainForm : Form
     {
         WebClient webClient = new WebClient();
@@ -44,7 +43,7 @@ namespace RTCV.Prereqs
         private void OnWebClientOnDownloadProgressChanged(object ov, DownloadProgressChangedEventArgs ev)
         {
             this.progressBar.Value = ev.ProgressPercentage;
-            lbDownloadProgress.Text = $"{String.Format("{0:0.##}", (Convert.ToDouble(ev.BytesReceived) / (1024d * 1024d)))}/{String.Format("{0:0.##}", (Convert.ToDouble(ev.TotalBytesToReceive) / (1024d * 1024d)))}MB";
+            lbDownloadProgress.Text = $"{string.Format("{0:0.##}", (Convert.ToDouble(ev.BytesReceived) / (1024d * 1024d)))}/{string.Format("{0:0.##}", (Convert.ToDouble(ev.TotalBytesToReceive) / (1024d * 1024d)))}MB";
         }
 
         private async void OnWebClientOnDownloadFileCompleted(object ov, AsyncCompletedEventArgs ev)
@@ -78,7 +77,7 @@ namespace RTCV.Prereqs
             });
 
             if (this.InvokeRequired)
-                this.Invoke((MethodInvoker) (() => DownloadNext()));
+                this.Invoke((MethodInvoker)(() => DownloadNext()));
             else
                 DownloadNext();
         }
@@ -107,7 +106,7 @@ namespace RTCV.Prereqs
 
             var vc2019 = new Dependency("Visual C++ 2019 x64", "vcruntime140_1.dll", "https://aka.ms/vs/16/release/vc_redist.x64.exe",
                 "/install /passive /norestart");
-           
+
             var vc2015x86 = new Dependency("Visual C++ 2015-2019 x86", "msvcp140.dll", "https://aka.ms/vs/16/release/vc_redist.x86.exe",
                 "/install /passive /norestart");
 
@@ -156,11 +155,10 @@ namespace RTCV.Prereqs
                     if (MessageBox.Show("The RTC may not work properly without these dependencies.\nYou can always run this tool again via the RTC Launcher", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly) != null) ;
                     {
                         Environment.Exit(0);
-                    };
+                    }
                 }
                 if (!IsAdministrator())
                 {
-
                     // Restart program and run as admin
                     var exeName = Process.GetCurrentProcess().MainModule.FileName;
                     var startInfo = new ProcessStartInfo(exeName, "-SKIPPROMPT");
@@ -169,7 +167,7 @@ namespace RTCV.Prereqs
                     {
                         Process.Start(startInfo).WaitForExit();
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         MessageBox.Show("Admin permissions are required to continue.\nThe RTC may not run properly until you re-run this from the launcher.");
                     }
@@ -244,7 +242,7 @@ namespace RTCV.Prereqs
                 if (!Environment.Is64BitProcess)
                 {
                     var name = Process.GetCurrentProcess().ProcessName + "64.exe";
-                    //var args = String.Join(" ", Environment.GetCommandLineArgs()); 
+                    //var args = String.Join(" ", Environment.GetCommandLineArgs());
                     if (processModule != null)
                     {
                         var fileName = Path.Combine(dir, name);
@@ -279,7 +277,6 @@ namespace RTCV.Prereqs
                 if (Environment.Is64BitProcess && Environment.GetCommandLineArgs().Contains("-NOTIFY"))
                     MessageBox.Show("All prerequisites satisfied.");
                 Application.Exit();
-
             }
         }
 
@@ -333,8 +330,7 @@ namespace RTCV.Prereqs
             public string DownloadLink { get; }
             public string InstallString { get; }
             public Dependency RunAfter { get; }
-            public String ExecutableName { get; set; }
+            public string ExecutableName { get; set; }
         }
-
     }
 }
