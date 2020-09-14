@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
-
-namespace RTCV.Prereqs
+﻿namespace RTCV.Prereqs
 {
+    using System;
+    using System.Windows.Forms;
+
     static class Programd
     {
         /// <summary>
