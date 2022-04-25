@@ -1,4 +1,4 @@
-﻿namespace RTCV.Prereqs
+namespace RTCV.Prereqs
 {
     using System;
     using System.Collections.Generic;
@@ -152,10 +152,8 @@
                 sb.AppendLine("Would you like to download and install them?");
                 if (MessageBox.Show(sb.ToString(), "Missing dependencies", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly) == DialogResult.No)
                 {
-                    if (MessageBox.Show("The RTC may not work properly without these dependencies.\nYou can always run this tool again via the RTC Launcher", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly) != null) ;
-                    {
-                        Environment.Exit(0);
-                    }
+                    MessageBox.Show("The RTC may not work properly without these dependencies.\nYou can always run this tool again via the RTC Launcher", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    Environment.Exit(0);
                 }
                 if (!IsAdministrator())
                 {
