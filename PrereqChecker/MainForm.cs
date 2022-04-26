@@ -110,7 +110,12 @@ namespace RTCV.Prereqs
             var vc2015x86 = new Dependency("Visual C++ 2015-2019 x86", "msvcp140.dll", "https://aka.ms/vs/16/release/vc_redist.x86.exe",
                 "/install /passive /norestart");
 
-            var vc2013 = new Dependency("Visual C++ 2013 x64", "msvcr120.dll", "https://download.microsoft.com/download/2/E/6/2E61CFA4-993B-4DD4-91DA-3737CD5CD6E3/vcredist_x64.exe", "/install /passive /norestart");
+            var vc2015x64 = new Dependency("Visual C++ 2015-2019 x64", "msvcp140.dll", "https://aka.ms/vs/16/release/vc_redist.x86.exe",
+                "/install /passive /norestart");
+
+            var vc2013x64 = new Dependency("Visual C++ 2013 x64", "msvcr120.dll", "https://download.microsoft.com/download/2/E/6/2E61CFA4-993B-4DD4-91DA-3737CD5CD6E3/vcredist_x64.exe", "/install /passive /norestart");
+            var vc2013x86 = new Dependency("Visual C++ 2013 x86", "msvcr120.dll", "https://download.microsoft.com/download/2/E/6/2E61CFA4-993B-4DD4-91DA-3737CD5CD6E3/vcredist_x86.exe", "/install /passive /norestart");
+
             var vc2012 = new Dependency("Visual C++ 2012 x64", "msvcr110.dll", "https://download.microsoft.com/download/1/6/B/16B06F60-3B20-4FF2-B699-5E9B7962F9AE/VSU_4/vcredist_x64.exe", "/install /passive /norestart");
             var vc2010 = new Dependency("Visual C++ 2010 x64", "msvcr100.dll", "https://download.microsoft.com/download/A/8/0/A80747C3-41BD-45DF-B505-E9710D2744E0/vcredist_x64.exe", "/passive /norestart");
             var dotNet471 = new Dependency(".Net Framework 4.7.1", "471", "https://download.visualstudio.microsoft.com/download/pr/014120d7-d689-4305-befd-3cb711108212/0fd66638cde16859462a6243a4629a50/ndp48-x86-x64-allos-enu.exe", "/install /x86 /x64 /passive /norestart");
@@ -123,8 +128,17 @@ namespace RTCV.Prereqs
                 if (Win32.LoadLibrary(vc2019.CheckFile) == IntPtr.Zero)
                     downloadQueue.Enqueue(vc2019); //PCSX2, MelonDS, Dolphin
 
-                if (Win32.LoadLibrary(vc2013.CheckFile) == IntPtr.Zero)
-                    downloadQueue.Enqueue(vc2013); //Bizhawk
+                if (Win32.LoadLibrary(vc2015x64.CheckFile) == IntPtr.Zero)
+                    downloadQueue.Enqueue(vc2015x64); //VC++2015 x64 for Dolphin Legacy
+
+                if (Win32.LoadLibrary(vc2015x86.CheckFile) == IntPtr.Zero)
+                    downloadQueue.Enqueue(vc2015x86); //VC++2015 x86 for PCSX2
+
+                if (Win32.LoadLibrary(vc2013x64.CheckFile) == IntPtr.Zero)
+                    downloadQueue.Enqueue(vc2013x64); //Bizhawk
+
+                if (Win32.LoadLibrary(vc2013x86.CheckFile) == IntPtr.Zero)
+                    downloadQueue.Enqueue(vc2013x86); //VRUN
 
                 if (Win32.LoadLibrary(vc2012.CheckFile) == IntPtr.Zero)
                     downloadQueue.Enqueue(vc2012); //Bizhawk
@@ -139,6 +153,12 @@ namespace RTCV.Prereqs
             {
                 if (Win32.LoadLibrary(vc2015x86.CheckFile) == IntPtr.Zero)
                     downloadQueue.Enqueue(vc2015x86); //VC++2015 x86 for PCSX2
+
+                if (Win32.LoadLibrary(vc2013x86.CheckFile) == IntPtr.Zero)
+                    downloadQueue.Enqueue(vc2013x86); //VRUN
+
+                if (GetDotNetVersion() < 471)
+                    downloadQueue.Enqueue(dotNet471);
             }
 
 
@@ -272,7 +292,7 @@ namespace RTCV.Prereqs
                 lbStatus.Text = "Done";
                 this.Refresh(); //Force this
                 //Daisy chain x86 to x64
-                if (Environment.Is64BitProcess && Environment.GetCommandLineArgs().Contains("-NOTIFY"))
+                if (Environment.GetCommandLineArgs().Contains("-NOTIFY"))
                     MessageBox.Show("All prerequisites satisfied.");
                 Application.Exit();
             }
