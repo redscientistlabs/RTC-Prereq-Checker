@@ -1,4 +1,4 @@
-﻿namespace RTCV.Prereqs
+namespace RTCV.Prereqs
 {
     partial class MainForm
     {
@@ -17,6 +17,8 @@
             {
                 components.Dispose();
             }
+
+            webClient.Dispose();
             base.Dispose(disposing);
         }
 
