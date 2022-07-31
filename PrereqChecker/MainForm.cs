@@ -151,6 +151,15 @@ namespace RTCV.Prereqs
             }
             else
             {
+                if (Win32.LoadLibrary(d3dx9.CheckFile) == IntPtr.Zero)
+                    downloadQueue.Enqueue(d3dx9); //Bizhawk
+
+                if (Win32.LoadLibrary(vc2010.CheckFile) == IntPtr.Zero)
+                    downloadQueue.Enqueue(vc2010); //Bizhawk and RTC (SlimDX)
+
+                if (Win32.LoadLibrary(vc2012.CheckFile) == IntPtr.Zero)
+                    downloadQueue.Enqueue(vc2012); //Bizhawk
+
                 if (Win32.LoadLibrary(vc2015x86.CheckFile) == IntPtr.Zero)
                     downloadQueue.Enqueue(vc2015x86); //VC++2015 x86 for PCSX2
 
